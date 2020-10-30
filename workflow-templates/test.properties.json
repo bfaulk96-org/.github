@@ -1,5 +1,5 @@
 {
-  "name": "PR Build",
+  "name": "Test",
   "description": "CI Workflow template for PRs",
   "iconName": "pr-merge",
   "categories": [

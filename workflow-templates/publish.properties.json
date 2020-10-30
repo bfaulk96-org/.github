@@ -1,5 +1,5 @@
 {
-  "name": "Build",
+  "name": "Publish",
   "description": "CI Workflow template for Branches",
   "iconName": "git-branch",
   "categories": [
