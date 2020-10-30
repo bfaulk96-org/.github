@@ -1,18 +1,20 @@
-name: My Org Branch CI
+name: Build
 
 on:
   push:
     branches: [ $default-branch ]
 
 jobs:
-  build:
+  build_branch:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Start
-        run: echo "Starting GH Workflow for Branches."
+        run: |
+          echo "Starting GH Workflow for main branch."
+          npm ci
 
       - name: Lint
         run: npm run lint:ci

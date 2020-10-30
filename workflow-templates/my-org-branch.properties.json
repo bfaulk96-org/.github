@@ -1,5 +1,5 @@
 {
-  "name": "My Org Branch CI",
+  "name": "Build",
   "description": "CI Workflow template for Branches",
   "iconName": "git-branch",
   "categories": [

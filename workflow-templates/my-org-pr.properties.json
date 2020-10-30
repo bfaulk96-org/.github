@@ -1,5 +1,5 @@
 {
-  "name": "My Org Pull Request CI",
+  "name": "PR Build",
   "description": "CI Workflow template for PRs",
   "iconName": "pr-merge",
   "categories": [
