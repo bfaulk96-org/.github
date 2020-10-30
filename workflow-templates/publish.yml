@@ -24,7 +24,7 @@ jobs:
       - name: Run Tests
         run: npm run test:ci
   publish-npm:
-    if: ${{ needs.extract_branch.outputs.branch_name == 'main' }}
+    if: ${{ needs.build_and_test.outputs.branch_name == 'main' }}
     needs:
       - build_and_test
     runs-on: ubuntu-latest
