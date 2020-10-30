@@ -1,0 +1,27 @@
+name: My Org Pull Request CI
+
+on:
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Start
+        run: echo "Starting GH Workflow for PRs."
+
+      - name: Lint
+        run: npm run lint:ci
+
+      - name: Test
+        run: npm run test:ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Finish
+        run: echo "It finished!"

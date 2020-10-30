@@ -1,0 +1,15 @@
+{
+  "name": "My Org Branch CI",
+  "description": "CI Workflow template for Branches",
+  "iconName": "git-branch",
+  "categories": [
+    "node",
+    "typescript",
+    "library",
+    "package"
+  ],
+  "filePatterns": [
+    "package.json$",
+    ".*\\.md$"
+  ]
+}

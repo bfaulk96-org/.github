@@ -1,0 +1,15 @@
+{
+  "name": "My Org Pull Request CI",
+  "description": "CI Workflow template for PRs",
+  "iconName": "pr-merge",
+  "categories": [
+    "node",
+    "typescript",
+    "library",
+    "package"
+  ],
+  "filePatterns": [
+    "package.json$",
+    ".*\\.md$"
+  ]
+}
