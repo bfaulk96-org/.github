@@ -1,0 +1,26 @@
+name: Slack Notify
+description: Notifies Slack of build successes/failures
+inputs:
+  slack-notify:
+    description: 'A comma-separated list of slack groups to notify for repo.'
+    required: false
+    default: ''
+runs:
+  using: composite
+  steps:
+    - uses: technote-space/workflow-conclusion-action@v1.1.1 # https://github.com/marketplace/actions/workflow-conclusion-action
+    - uses: 8398a7/action-slack@v3 # https://github.com/marketplace/actions/action-slack, https://action-slack.netlify.app/
+      with:
+        status: custom
+        fields: workflow,job,commit,repo,ref,author,took
+        custom_payload: |
+          {
+            username: 'Github CI',
+            icon_emoji: ':hammer_and_wrench:',
+            attachments: [{
+              color: '${{ env.WORKFLOW_CONCLUSION }}' === 'success' ? 'good' : '${{ env.WORKFLOW_CONCLUSION }}' === 'failure' ? 'danger' : 'warning',
+              text: `${process.env.AS_REPO} ${process.env.AS_REF.replace(/.*\//, '')}\n${process.env.AS_WORKFLOW}: ${"${{ env.WORKFLOW_CONCLUSION }}".toUpperCase()}\n${process.env.AS_AUTHOR}`
+            }]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

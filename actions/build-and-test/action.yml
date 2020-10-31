@@ -1,21 +1,50 @@
 name: Build and Test
 description: 'Build and Test NodeJS'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.rng.outputs.random-id }}
+  slack-notify:
+    description: 'A comma-separated list of slack groups to notify for repo.'
+    required: false
+    default: ''
+  include-steps:
+    description: 'A comma-separated list of steps to run for repo [check-types, lint, build, test]. Leave empty for all.'
+    required: false
+    default: 'check-types,lint,build,test'
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
-    - id: rng
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
-    - run: ${{ github.action_path }}/buildAndTest.sh
-      shell: bash
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Set Up NPM
+      run: |
+        echo "Setting up npm..."
+        npm config set registry https://registry.npmjs.org
+    #          npm config set @other:registry https://npm.platforms.engineering
+    - name: Install Dependencies
+      run: |
+        echo "Installing dependencies..."
+        npm ci
+    - name: Check Types
+      if: ${{ contains(inputs.include-steps, "check-types") }}
+      run: |
+        echo "Checking types..."
+        npm run check-types
+    - name: Lint Repo
+      if: ${{ contains(inputs.include-steps, "lint") }}
+      run: |
+        echo "Linting repository..."
+        npm run lint:ci
+    - name: Build
+      if: ${{ contains(inputs.include-steps, "build") }}
+      run: |
+        echo "Building..."
+        npm run build
+        rm -rf .git
+        rm -rf node_modules/.cache
+    - name: Run Tests
+      if: ${{ contains(inputs.include-steps, "test") }}
+      run: |
+        echo "Testing..."
+        npm run test:ci
+        echo "Build checks successfull"
