@@ -7,13 +7,13 @@ inputs:
     default: 'check-types,lint,build,test'
 runs:
   using: "composite"
-  env:
-    include_steps: ${{ inputs.include-steps }}
   steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: 12
     - name: Set Up NPM
+      env:
+        include_steps: ${{ inputs.include-steps }}
       run: ${{ github.action_path }}/buildAndTest.sh
       shell: bash
