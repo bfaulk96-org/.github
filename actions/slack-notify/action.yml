@@ -6,7 +6,7 @@ inputs:
     required: false
     default: ''
 runs:
-  using: composite
+  using: "composite"
   steps:
     - uses: technote-space/workflow-conclusion-action@v1.1.1 # https://github.com/marketplace/actions/workflow-conclusion-action
     - uses: 8398a7/action-slack@v3 # https://github.com/marketplace/actions/action-slack, https://action-slack.netlify.app/
