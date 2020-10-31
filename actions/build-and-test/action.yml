@@ -7,46 +7,13 @@ inputs:
     default: 'check-types,lint,build,test'
 runs:
   using: "composite"
+  env:
+    include_steps: ${{ inputs.include-steps }}
   steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: 12
     - name: Set Up NPM
-      run: |
-        echo "Setting up npm..."
-        npm config set registry https://registry.npmjs.org
-    #          npm config set @other:registry https://npm.platforms.engineering
-      shell: bash
-    - name: Install Dependencies
-      run: |
-        echo "Installing dependencies..."
-        npm ci
-      shell: bash
-    - name: Check Types
-      if: ${{ contains(inputs.include-steps, "check-types") }}
-      run: |
-        echo "Checking types..."
-        npm run check-types
-      shell: bash
-    - name: Lint Repo
-      if: ${{ contains(inputs.include-steps, "lint") }}
-      run: |
-        echo "Linting repository..."
-        npm run lint:ci
-      shell: bash
-    - name: Build
-      if: ${{ contains(inputs.include-steps, "build") }}
-      run: |
-        echo "Building..."
-        npm run build
-        rm -rf .git
-        rm -rf node_modules/.cache
-      shell: bash
-    - name: Run Tests
-      if: ${{ contains(inputs.include-steps, "test") }}
-      run: |
-        echo "Testing..."
-        npm run test:ci
-        echo "Build checks successfull"
+      run: ${{ github.action_path }}/buildAndTest.sh
       shell: bash
